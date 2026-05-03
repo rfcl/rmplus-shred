@@ -36,19 +36,6 @@ TMP_FF_REC_TIME=1
 ##Set default --prompt setting
 AUTOMATIC_RM='true'
 
-## Define utility functions
-
- ## Function to convert numbers to absolute values (for use with mouse input entropy modifier)
-# function getabs(){
-#     (( n = $1))
-# 	echo $n
-#     if (( n < 0 )); then 
-#     	absval=$(echo $1 | sed 's/\-//g')
-#     fi
-# 	nh=$(( absval ))
-# 	echo $nh
-# }
-
 ## Evaluate additional options from arguments to passed to rmplus
  for val in "${argv[@]}" 
  do		
@@ -133,35 +120,17 @@ until [ -n "$(find "$ENTROPY_CAPTURE_OUTFILE" -prune -size +$(echo $ENTROPY_OUT_
 								entropy_rand_capture=$(head -n $x_loc_abs /dev/urandom)
 								echo $entropy_rand_capture >> $ENTROPY_CAPTURE_OUTFILE
 
-								# c_b=$(cliclick cp:. | awk '{print $3}')
-								# echo $c_b
-								# entropy_rand_capture=$(head -n $c_b /dev/urandom)
-								# echo $entropy_rand_capture >> $ENTROPY_CAPTURE_OUTFILE
-
 								y_loc=$(cliclick p  2>/dev/null | sed 's/[0-9]*\,//')
 								y_loc_abs=$(echo $y_loc | awk '{print sqrt($1*$1)}')
 								entropy_rand_capture=$(head -n $y_loc_abs /dev/urandom)
 								echo $entropy_rand_capture >> $ENTROPY_CAPTURE_OUTFILE
 
-								# c_r=$(cliclick cp:. | awk '{print $1}')
-								# c_r_abs=$(getabs $c_r)
-								# entropy_rand_capture=$(head -n $c_r_abs /dev/urandom)
-								# echo $entropy_rand_capture >> $ENTROPY_CAPTURE_OUTFILE
-								
-								# c_g=$(cliclick cp:. | awk '{print $2}')
-								# c_r_abs=$(getabs $c_g)
-								# entropy_rand_capture=$(head -n $c_r_abs /dev/urandom)
-								# echo $entropy_rand_capture >> $ENTROPY_CAPTURE_OUTFILE
-
-								# print "$x_loc$c_b$y_loc$c_g$c_r"
-								# print "$per_window_iters out of 30 iterations completed"
 								
 								if [[ $x_loc != $last_x_loc ]]
 									then
 										((per_window_iters++))
 								fi
-								# print "x is $x_loc .. y is $y_loc"
-								# print $per_window_iters
+
 								last_y_loc=$y_loc
 								last_x_loc=$x_loc
 
@@ -197,14 +166,7 @@ until [ -n "$(find "$ENTROPY_CAPTURE_OUTFILE" -prune -size +$(echo $ENTROPY_OUT_
 
 print "\n\n[+] All iterations of entropy capture complete"
 print "[~] Total combined entropy data captured in bytes is $(stat -f %z $ENTROPY_CAPTURE_OUTFILE) [per stat]"
-# print "[~] Entropy captured in bytes is $(ls -la $ENTROPY_CAPTURE_OUTFILE | awk '{print $5}') [per ls]"
-# print "[~] If these numbers do not match further investigation may be required"
 
-# print "[~] Ready to remove $argv[$FILE_TO_RM_IDX] using captured entropy"
-# print "[~] rmplus: removing $argv[$FILE_TO_RM_IDX]"
-
-##Generate entropy with default values or those specified by --rl n or --
-# hred -f -z -n 7 -u $VERBOSE --random-source /dev/urandom $FILE_TO_RM
 
 print "\n[!] Ready to securely remove $FILE_TO_RM"
 
@@ -255,35 +217,3 @@ if [[ -f $ENTROPY_CAPTURE_OUTFILE ]]
 		print "\n[+] File $ENTROPY_CAPTURE_OUTFILE securely removed"
 		TMP_ENTROPY_RM_OUTCOME='true'
 fi
-
-# ls $tmp_ff_a_fname || ls $ENTROPY_CAPTURE_OUTFILE || ls $FILE_TO_RM || print "[!] WARNING: One or more files targeted for deletion failed to be securely deleted.\n[!] WARNING: It is recommended that you review rmplus output and check files manually so you can ensure they are securely removed."
-
-# if [[ $TMP_ENTROPY_RM_OUTCOME == 'false' || $FF_AUDIO_RM_OUTCOME == 'false' || $FILE_TO_RM_OUTCOME == 'false' ]]
-# 	then
-# 		print '\n[!] WARNING: One or more temporary files or file targeted for secure deletion failed to be removed. It is recommended to check and manually remove these files if they are still present'
-# 		return 2 2>/dev/null || exit 0
-# 	else
-# 		return 0 2>/dev/null || exit 0
-# fi
-# elif [[ $AUTOMATIC_RM == 'false' ]];
-# 	then
-
-# else
-	# then
-	# 	continue
-
-
-
-
- ## Function to convert numbers to absolute values (for use with mouse input entropy modifier)
-# function getabs(){
-#     (( n = $1))
-# 	print $n
-#     if (( n < 0 )); then 
-#         absval=$(echo $n | sed 's/\-//g')
-#     fi
-# 	echo $absval
-# }
-
-# z=$(getabs -9)
-# print $z
