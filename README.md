@@ -6,10 +6,18 @@ Usage
 -------
 rmplus+ can be run by executing it from zsh terminal with the usage:
 
-./rmplus.sh [options] filename
+#### ./rmplus.sh [options] filename
 
-Optional arguments:
+#### Optional arguments:
+
 --help Display usage and optional arguments
+
 --how  Show the standard shred options
+
 --v    Enable shred verbose output
+
 --p    Prompt before secure removal of file for deletion after entropy capture.
+
+#### Example:
+
+./rmplush.sh --p filetodelete.txt
